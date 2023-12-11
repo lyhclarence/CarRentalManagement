@@ -15,23 +15,18 @@ namespace CarRentalManagement.Server.Controllers
     [ApiController]
     public class VehiclesController : ControllerBase
     {
-        //private readonly ApplicationDbContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
-        //public VehiclesController(ApplicationDbContext context)
         public VehiclesController(IUnitOfWork unitOfWork)
         {
-            //_context = context;
             _unitOfWork = unitOfWork;
         }
 
         // GET: api/Vehicles
         [HttpGet]
-        //public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicles()
          public async Task<IActionResult> GetVehicles()
         {
-            //return await _unitOfWork.Vehicles.ToListAsync();
-            var Vehicles = await _unitOfWork.Vehicles.GetAll();
+            var Vehicles = await _unitOfWork.Vehicles.GetAll(includes: q => q.Include(x => x.Make).Include(x => x.Model).Include(x => x.Colour));
             return Ok(Vehicles);
         }
 
@@ -39,7 +34,6 @@ namespace CarRentalManagement.Server.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetVehicle(int id)
         {
-            //var Vehicle = await _unitOfWork.Vehicles.FindAsync(id);
             var Vehicle = await _unitOfWork.Vehicles.Get(q => q.Id == id);
 
             if (Vehicle == null)
@@ -60,7 +54,6 @@ namespace CarRentalManagement.Server.Controllers
                 return BadRequest();
             }
 
-            //_unitOfWork.Entry(Vehicle).State = EntityState.Modified;
             _unitOfWork.Vehicles.Update(Vehicle);
 
             try

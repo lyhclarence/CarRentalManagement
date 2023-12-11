@@ -1,12 +1,12 @@
 ﻿using CarRentalManagement.Shared.Domain;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CarRentalManagement.Server.Configurations.Entities
 {
     public class ColourSeedConfiguration : IEntityTypeConfiguration<Colour>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Colour> builder)
+        public void Configure(EntityTypeBuilder<Colour> builder)
         {
             builder.HasData(
                 new Colour
